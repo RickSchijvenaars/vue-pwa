@@ -10,3 +10,13 @@ new Vue({
     components: { App },
     template: '<App/>'
 })
+
+if ('serviceWorker' in navigator) { //navigator object contains info about browser
+    navigator.serviceWorker.register('sw.js')
+        .then(swRegistration => {
+            console.log(swRegistration)
+        })
+        .catch(error => {
+            console.log('Error', error)
+        })
+}
