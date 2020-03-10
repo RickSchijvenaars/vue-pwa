@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 // Page content
 import Page1 from '@/components/Page1'
-import Home from '@/components/Home'
+import Showcase from '@/components/Showcase'
 
 // Fallback page
 import PageNotFound from '@/components/PageNotFound'
@@ -13,8 +13,8 @@ Vue.use(Router)
 export default new Router({
     routes: [{
             path: '/',
-            name: 'Home',
-            component: Home
+            name: 'Showcase',
+            component: Showcase
         },
         {
             path: '/page-1',

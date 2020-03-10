@@ -1,7 +1,10 @@
 <template>
   <div>
+    <div class="header">
+      <h1 class="header-title">CMGT Showcase</h1>
+    </div>
     <ul>
-      <li v-for="(link, index) in links" :key="index">
+      <li v-for="(link, index) in links" :key="index" class="uk-list">
         <router-link :to="link.to">{{ link.name }}</router-link>
       </li>
     </ul>
@@ -17,7 +20,7 @@ export default {
   data: () => ({
     links: [
       {
-        name: 'Home',
+        name: 'Showcase',
         to: '/'
       },
       {
@@ -32,20 +35,13 @@ export default {
   })
 }
 </script>
-<style scoped>
-  ul {
-    list-style: none;
-    display: flex;
-    padding: 0;
+
+<style lang="scss">
+.header {
+  &-title {
+    padding: 20px 10px;
+    color: white;
+    background-color: #CC0133;
   }
-  li {
-    padding: 5px 15px 5px 0;
-  }
-  li a {
-    text-decoration: none;
-    color: black;
-  }
-  li a:hover {
-    color: #404040;
-  }
+}
 </style>

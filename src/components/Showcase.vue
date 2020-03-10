@@ -1,15 +1,25 @@
 <template>
-  <div>
-    <h1>Home</h1>
-    <div class="tags">
-      <span v-if="offline">You are offline.</span>
-      <div v-else v-for="(tag, index) in tags" :key="index" class="tag">
-        <div class="title"><h3>{{ tag }}</h3></div>
+  <div class="showcase">
+    <div class="showcase-top">
+      <span v-if="offline">
+        You are offline.
+      </span>
+      <div v-else class="showcase-tags">
+        <h2 class="showcase-tags-title">
+          Filter:
+        </h2>
+        <div 
+          v-for="(tag, index) in tags" 
+          :key="index" 
+          class="showcase-tag"
+        >
+          {{ tag }}
+        </div>
       </div>
     </div>
     <div class="projects">
       <div v-for="(project, index) in projects" :key="index" class="project">
-        
+        <Project :project="project"/>
       </div>
     </div>
   </div>
@@ -17,9 +27,11 @@
 
 <script>
 import localforage from 'localforage';
+import Project from './Project';
 
 export default {
   components: {
+    Project
   },
 
   data() {
@@ -38,11 +50,11 @@ export default {
     getProjects() {
       fetch('https://cmgt.hr.nl:8000/api/projects/')
       .then(response => response.json())
-      .then(data => {
+      .then(data => { // if connection
         this.projects = data.projects
         localforage.setItem('projects', data.projects)
       })
-      .catch(error => {
+      .catch(error => { // if no connection
         localforage.getItem('projects')
         .then(value => {
           this.projects = value
@@ -65,9 +77,28 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.showcase {
+  padding: 0 10px;
 
-h1 {
-  color: blue
+  &-top {
+    min-height: 60px;
+  }
+
+  &-tag {
+    display: inline-block;
+    margin: 2px;
+    padding: 4px 10px;
+    color: white;
+    background-color: #CC0133;
+    border-radius: 22px;
+
+    &s {
+      &-title {
+        margin-bottom: 6px;
+        font-size: 20px;
+      }
+    }
+  }
 }
 </style>

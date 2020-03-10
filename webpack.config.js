@@ -35,6 +35,14 @@ module.exports = (env, argv) => ({
                     'css-loader'
                 ],
                 exclude: /\.module\.css$/
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ]
             }
         ]
     },
