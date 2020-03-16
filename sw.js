@@ -1,14 +1,15 @@
-const cacheAppShell = 'cacheAppShell'
-const cacheProjects = 'cacheProjects'
+const cacheAppShell = 'cacheAppShell-v1'
+const cacheProjects = 'cacheProjects-v1'
 const apiProjectsPath = '/api/projects/'
 
 const cacheFiles = [
-    '/index.html',
+    '/',
     '/192.png',
     '/512.png',
-    'src/App.vue',
-    'src/app.js',
-    'src/router.js',
+    '/manifest.json',
+    '/main.js',
+    '/runtime~main.js',
+    '/vendors~main.js',
 ]
 
 
@@ -25,7 +26,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
     self.clients.claim()
     event.waitUntil(
-        caches.keys()
+        caches.keys() // get cache files
         .then(cacheKeys => {
             let deletePromises = []
             for (let i = 0; i < cacheKeys.length; i++) {
@@ -36,32 +37,51 @@ self.addEventListener('activate', event => {
     )
 })
 
-self.addEventListener('fetch', event => { // fetch controls every event (like api call)
+self.addEventListener('fetch', event => { // fetch controls every event
     const requestUrl = new URL(event.request.url)
     const requestPath = requestUrl.pathname
+        // console.log(event)
     if (requestPath == apiProjectsPath) event.respondWith(networkFirstStrategy(event.request)); // for api call
-    // else if (requestPath == '/') event.respondWith(cacheFirstStrategy(event.request))
+    else event.respondWith(cacheFirstStrategy(event.request))
 })
 
 function cacheFirstStrategy(request) {
-    return caches.match(request).then(cacheResponse => {
-        return cacheResponse || fetchRequestAndCache(request);
+    return caches.match(request).then(cacheResponse => { // if request is in cache
+        return cacheResponse || fetch(request)
+            // .then(response => {
+
+        // if (response.url) {
+        //     const responseUrl = new URL(response.url)
+        //     const responsePath = responseUrl.pathname
+        //     if (responsePath == '/' || responsePath == '/runtime~main.js' || responsePath == '/vendors~main.js') {
+        //         const responseCache = response.clone();
+
+        //         caches.open(cacheAppShell)
+        //             .then(function(cache) {
+        //                 cache.put(request, responseCache);
+        //             });
+
+        //         return response;
+        //     }
+        // }
+
+        // return response;
+        // });
     });
 }
 
 function networkFirstStrategy(request) {
-    return fetchRequestAndCache(request) // try network
+    return fetchRequestAndCache(request, cacheProjects) // try network
         .catch(response => { // if network problems
-            console.log('no network')
             return caches.match(request); // if older response in catch for same request, return old version
         })
 }
 
-function fetchRequestAndCache(request) {
+function fetchRequestAndCache(request, cacheFile) {
     return fetch(request).then(networkResponse => { // if API-call successful and retrieved response
-        caches.open(cacheProjects) // get cachefile
+        caches.open(cacheFile) // get cache file
             .then(cache => {
-                cache.put(request, networkResponse); // add cache file
+                cache.put(request, networkResponse); // update cache file
             })
         return networkResponse.clone(); // already used at caching, a clone is needed or it will fail
     });
