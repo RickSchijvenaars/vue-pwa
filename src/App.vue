@@ -37,11 +37,23 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  scroll-behavior: smooth;
+  background-color: #f0f0f0;
+}
 .header {
   &-title {
     padding: 20px 10px;
     color: white;
     background-color: #CC0133;
   }
+}
+.tag {
+    display: inline-block;
+    margin: 2px;
+    padding: 4px 10px;
+    color: white;
+    background-color: #CC0133;
+    border-radius: 22px;
 }
 </style>

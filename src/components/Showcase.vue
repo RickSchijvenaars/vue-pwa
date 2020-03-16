@@ -2,23 +2,23 @@
   <div class="showcase">
     <div class="showcase-top">
       <span v-if="offline">
-        You are offline.
+        You are offline. Tags are not available.
       </span>
-      <div v-else class="showcase-tags">
-        <h2 class="showcase-tags-title">
+      <div v-else class="tags">
+        <h2 class="tags-title">
           Filter:
         </h2>
         <div 
           v-for="(tag, index) in tags" 
           :key="index" 
-          class="showcase-tag"
+          class="tag"
         >
           {{ tag }}
         </div>
       </div>
     </div>
     <div class="projects">
-      <div v-for="(project, index) in projects" :key="index" class="project">
+      <div v-for="(project, index) in projects" :key="index" class="project-container">
         <Project :project="project"/>
       </div>
     </div>
@@ -76,7 +76,6 @@ export default {
 }
 
 </script>
-
 <style lang="scss" scoped>
 .showcase {
   padding: 0 10px;
@@ -84,21 +83,18 @@ export default {
   &-top {
     min-height: 60px;
   }
+}
 
-  &-tag {
-    display: inline-block;
-    margin: 2px;
-    padding: 4px 10px;
-    color: white;
-    background-color: #CC0133;
-    border-radius: 22px;
+.tags {
+  &-title {
+    margin-bottom: 6px;
+    font-size: 20px;
+  }
+}
 
-    &s {
-      &-title {
-        margin-bottom: 6px;
-        font-size: 20px;
-      }
-    }
+.project {
+  &-container {
+    margin-top: 60px;
   }
 }
 </style>
