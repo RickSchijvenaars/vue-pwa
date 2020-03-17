@@ -17,8 +17,8 @@
         </div>
       </div>
     </div>
-    <div class="projects">
-      <div v-for="(project, index) in projects" :key="index" class="project-container">
+    <div class="projects" uk-grid>
+      <div v-for="(project, index) in projects" :key="index" class="project-container uk-width-1-2@s uk-width-1-3@m  uk-width-1-4@l">
         <Project :project="project"/>
       </div>
     </div>
@@ -46,20 +46,21 @@ export default {
     this.getProjects()
     this.getTags()
   },
+
   methods: {
     getProjects() {
       fetch('https://cmgt.hr.nl:8000/api/projects/')
-      .then(response => response.json())
-      .then(data => { // if connection
-        this.projects = data.projects
-        localforage.setItem('projects', data.projects)
-      })
-      .catch(error => { // if no connection
-        localforage.getItem('projects')
-        .then(value => {
-          this.projects = value
+        .then(response => response.json())
+        .then(data => { // if connection
+          this.projects = data.projects
+          localforage.setItem('projects', data.projects)
         })
-      })
+        .catch(error => { // if no connection
+          localforage.getItem('projects')
+          .then(value => {
+            this.projects = value
+          })
+        })
     },
 
     getTags() {
@@ -71,7 +72,7 @@ export default {
       .catch(error => {
         this.offline = true
       })
-    }
+    },
   }
 }
 

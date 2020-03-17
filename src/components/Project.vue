@@ -7,11 +7,15 @@
             </h3>
             </div>
         </div>
-        <div class="project-description">
-            {{ project.tagline}}
-            <span v-for="(tag, index) in project.tags" :key="index" class="tag">
-                {{ tag }}
-            </span>
+        <div class="project-bottom">
+            <div class="project-bottom-description">
+                {{ project.tagline}}
+            </div>
+            <div class="project-bottom-tags">
+                <span v-for="(tag, index) in project.tags" :key="index" class="tag">
+                    {{ tag }}
+                </span>
+            </div>
         </div>
     </div>
 </template>
@@ -25,7 +29,8 @@ export default {
 
 <style lang="scss">
 .project {
-    height: 350px;
+    height: 100%;
+    min-height: 350px;
     font-size: 1rem;
     transition: all .4s ease-out;
     cursor: pointer;
@@ -34,7 +39,7 @@ export default {
     background-color: #fff;
 
     &-thumbnail {
-        height: 70%;
+        height: 270px;
         background: no-repeat 50%;
         background-size: cover;
         transition: all .6s ease-out;
@@ -55,11 +60,15 @@ export default {
         }
     }
 
-    &-description {
+    &-bottom {   
         padding: 12px 20px;
-        height: 30%;
-        color: #000;
-        background-color: #fff;
+        background-color: white;
+
+        &-description {
+            padding-bottom: 12px;
+            color: #000;
+            background-color: #fff;
+        }
     }
 }
 </style>

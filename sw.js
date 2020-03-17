@@ -1,4 +1,4 @@
-const cacheAppShell = 'cacheAppShell-v1'
+const cacheAppShell = 'cacheAppShell-v9'
 const cacheProjects = 'cacheProjects-v1'
 const apiProjectsPath = '/api/projects/'
 
@@ -48,25 +48,6 @@ self.addEventListener('fetch', event => { // fetch controls every event
 function cacheFirstStrategy(request) {
     return caches.match(request).then(cacheResponse => { // if request is in cache
         return cacheResponse || fetch(request)
-            // .then(response => {
-
-        // if (response.url) {
-        //     const responseUrl = new URL(response.url)
-        //     const responsePath = responseUrl.pathname
-        //     if (responsePath == '/' || responsePath == '/runtime~main.js' || responsePath == '/vendors~main.js') {
-        //         const responseCache = response.clone();
-
-        //         caches.open(cacheAppShell)
-        //             .then(function(cache) {
-        //                 cache.put(request, responseCache);
-        //             });
-
-        //         return response;
-        //     }
-        // }
-
-        // return response;
-        // });
     });
 }
 
