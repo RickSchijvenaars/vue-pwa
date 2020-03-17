@@ -3,11 +3,11 @@
     <div class="header">
       <h1 class="header-title">CMGT Showcase</h1>
     </div>
-    <ul>
+    <!-- <ul>
       <li v-for="(link, index) in links" :key="index" class="uk-list">
         <router-link :to="link.to">{{ link.name }}</router-link>
       </li>
-    </ul>
+    </ul> -->
     <main>
       <!-- component based on route -->
       <router-view/>

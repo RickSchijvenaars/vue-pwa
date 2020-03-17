@@ -1,4 +1,4 @@
-const cacheAppShell = 'cacheAppShell-v9'
+const cacheAppShell = 'cacheAppShell-v12'
 const cacheProjects = 'cacheProjects-v1'
 const apiProjectsPath = '/api/projects/'
 
@@ -14,7 +14,7 @@ const cacheFiles = [
 
 
 self.addEventListener('install', event => {
-    self.skipWaiting()
+    self.skipWaiting() // skip waiting, go to activating state
     event.waitUntil(
         caches.open(cacheAppShell)
         .then(cache => {
@@ -24,7 +24,7 @@ self.addEventListener('install', event => {
 })
 
 self.addEventListener('activate', event => {
-    self.clients.claim()
+    self.clients.claim() // make this service worker active for all clients
     event.waitUntil(
         caches.keys() // get cache files
         .then(cacheKeys => {
@@ -40,7 +40,6 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => { // fetch controls every event
     const requestUrl = new URL(event.request.url)
     const requestPath = requestUrl.pathname
-        // console.log(event)
     if (requestPath == apiProjectsPath) event.respondWith(networkFirstStrategy(event.request)); // for api call
     else event.respondWith(cacheFirstStrategy(event.request))
 })
